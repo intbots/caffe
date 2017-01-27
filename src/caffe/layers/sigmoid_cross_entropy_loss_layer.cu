@@ -75,6 +75,9 @@ template <typename Dtype>
 void SigmoidCrossEntropyLossLayer<Dtype>::Backward_gpu(
     const vector<Blob<Dtype>*>& top, const vector<bool>& propagate_down,
     const vector<Blob<Dtype>*>& bottom) {
+  
+  Backward_cpu(top, propagate_down, bottom);
+  /*
   if (propagate_down[1]) {
     LOG(FATAL) << this->type()
                << " Layer cannot backpropagate to label inputs.";
@@ -97,6 +100,7 @@ void SigmoidCrossEntropyLossLayer<Dtype>::Backward_gpu(
     Dtype loss_weight = top[0]->cpu_diff()[0] / normalizer_;
     caffe_gpu_scal(count, loss_weight, bottom_diff);
   }
+  */
 }
 
 INSTANTIATE_LAYER_GPU_FUNCS(SigmoidCrossEntropyLossLayer);

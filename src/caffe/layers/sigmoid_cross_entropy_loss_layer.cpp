@@ -3,7 +3,7 @@
 
 #include "caffe/layers/sigmoid_cross_entropy_loss_layer.hpp"
 #include "caffe/util/math_functions.hpp"
-
+#include <iostream>
 namespace caffe {
 
 template <typename Dtype>
@@ -40,6 +40,9 @@ void SigmoidCrossEntropyLossLayer<Dtype>::Reshape(
   inner_num_ = bottom[0]->count(1);  // instance size: |output| == |target|
   CHECK_EQ(bottom[0]->count(), bottom[1]->count()) <<
       "SIGMOID_CROSS_ENTROPY_LOSS layer inputs must have the same count.";
+  if (bottom.size() == 3) {
+    CHECK_EQ(bottom[0]->count(), bottom[2]->count()) << "SIGMOID_CROSS_ENTROPY_LOSS layer weight must be the same count";
+  }
   sigmoid_layer_->Reshape(sigmoid_bottom_vec_, sigmoid_top_vec_);
 }
 
